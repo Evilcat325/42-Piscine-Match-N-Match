@@ -6,7 +6,20 @@
 /*   By: seli <seli@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/28 23:55:28 by seli              #+#    #+#             */
-/*   Updated: 2018/09/28 23:55:28 by seli             ###   ########.fr       */
+/*   Updated: 2018/09/30 14:46:07 by seli             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+int	nmatch(char *s1, char *s2)
+{
+	int solutions;
+
+	solutions = 0;
+	if ((*s2 == '*' && *(s2 + 1) == '\0') || (!*s1 && !*s2))
+		return (1);
+	if (*s2 != '*')
+		return ((!*s1 || *s2 != *s1) ? 0 : nmatch(s1 + 1, s2 + 1));
+	while (*s1 && *s2 == '*')
+		solutions += nmatch(s1++, s2 + 1);
+	return (solutions + nmatch(s1, s2 + 1));
+}
