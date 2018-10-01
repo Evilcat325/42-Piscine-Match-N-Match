@@ -6,20 +6,14 @@
 /*   By: seli <seli@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/28 23:55:28 by seli              #+#    #+#             */
-/*   Updated: 2018/09/30 15:14:57 by seli             ###   ########.fr       */
+/*   Updated: 2018/10/01 14:50:43 by seli             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#define EXIT(X, Y) (!*X && !*Y) || (*Y != '*' && *X != *Y)
+#define OR(X, Y) (nmatch(X+(*Y!='*'),Y+1) + (*X && *Y=='*' ? nmatch(X+1,Y) : 0))
+
 int	nmatch(char *s1, char *s2)
 {
-	int solutions;
-
-	solutions = 0;
-	if ((!*s1 && !*s2) || (*s2 == '*' && *(s2 + 1) == '\0'))
-		return (1);
-	if (*s2 != '*')
-		return (*s2 != *s1 ? 0 : nmatch(s1 + 1, s2 + 1));
-	while (*s1 && *s2 == '*')
-		solutions += nmatch(s1++, s2 + 1);
-	return (solutions + nmatch(s1, s2 + 1));
+	return (EXIT(s1, s2) ? (!*s1 && !*s2) : OR(s1, s2));
 }
